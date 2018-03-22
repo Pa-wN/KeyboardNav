@@ -1,0 +1,78 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+body {
+  height: 100vh;
+  background: url(../img/dog.jpg) no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  background-color: #d6d7d1;
+}
+ul, li, ol {
+  list-style-type: none;
+}
+.clearfix::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.content {
+  display: none;
+}
+.animation {
+  display: block;
+  transform: scale(1);
+  animation:bigToSmall 0.7s;
+}
+@keyframes bigToSmall {
+  0% {
+    transform: scale(10);
+  }
+  80% {
+    transform: scale(0.7);
+  }
+  100% {
+    transform: scale(1);    
+  }
+}
+#content ul {
+  text-align: center;
+}
+#content ul li {
+  margin: 10px 10px;  
+  display: inline-block;
+  background: #000;
+  width: 70px;
+  line-height: 70px;
+  position: relative;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 25px;
+  box-shadow: 2px 2px 2px  rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+#content ul li:active {
+  top: 2px;
+}
+#content ul li button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: none;
+  background: rgba(255, 255, 255, 0.4);
+  background: url(../img/set.png) no-repeat;
+  background-size: cover;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  cursor: pointer;
+}
+#content ul li:hover button {
+  display: inline-block;
+}
+#content ul li .icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+}

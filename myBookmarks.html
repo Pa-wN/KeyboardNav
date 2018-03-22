@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>网址导航</title>
+  <link rel="stylesheet" href="./style/style.css">
+</head>
+
+<body>
+  <header></header>
+  <main id="content" class="content"></main>
+  <footer></footer>
+  <script>
+    // 初始化
+    var start = init();
+    var list = start.list;
+    var hash = start.hash;
+
+    // 渲染
+    generateDom(list, hash);
+
+    // 监听
+    listenerUser(hash);
+
+
+    function init() {
+      var list = [
+        ["q", "w", "e", "r", "t", "y", "u", 'i', "o", 'p'],
+        ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+        ['z', 'x', 'c', 'v', 'b', 'n', 'm']
+      ]
+      var hash = {
+        q: 'qzone.qq.com',
+        w: 'weibo.com'
+      }
+      return {
+        list: list,
+        hash: hash
+      }
+    }
+
+    // 渲染DOM
+    function generateDom(list, hash) {
+      var cont = document.getElementById('content');
+      for (var i = 0; i < list.length; i++) {
+        var ul = celm('ul');
+        for (var j = 0; j < list[i].length; j++) {
+          var li = celm('li');
+          var current = list[i][j];
+          var domain = localStorage.getItem(current) || hash[current];
+          var img = createImg(domain);
+          var button = createButton(hash, current);
+          li.textContent = current;
+          li.appendChild(img);
+          li.appendChild(button);
+          ul.appendChild(li);
+        }
+        cont.appendChild(ul);
+      }
+      cont.className = 'animation';
+    }
+    // 监听
+    function listenerUser(hash) {
+      document.onkeypress = function (event) {
+        var e = event || window.enent;
+        var domain = localStorage.getItem(e.key) || hash[e.key];
+        window.open('http://' + domain);
+      }
+    }
+
+    function celm(tagName) {
+      return document.createElement(tagName);
+    }
+    function createButton(hash, buttonText) {
+      var button = celm('button');
+      button.setAttribute('data-id', buttonText);
+      button.onclick = function (evevt) {
+        var userSet = prompt('请输入网址！');
+        var data = event.target.getAttribute('data-id');
+        var img = event.target.previousSibling;
+        if (userSet !== null) {
+          hash[data] = userSet;
+          localStorage.setItem(data, userSet);
+          img.src = 'http://' + userSet + '/favicon.ico';
+        }
+      }
+      return button;
+    }
+
+    function createImg(domain) {
+      var img = celm('img');
+      img.className = 'icon';
+      if (domain) {
+        img.src = 'http://' + domain + '/favicon.ico';
+      } else {
+        img.src = 'http://i.loli.net/2017/11/10/5a05afbc5e183.png';
+      }
+      img.onerror = function (event) {
+        event.target.src = 'http://i.loli.net/2017/11/10/5a05afbc5e183.png';
+      }
+      return img;
+    }
+  </script>
+</body>
+
+</html>
